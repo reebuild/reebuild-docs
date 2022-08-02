@@ -37,15 +37,15 @@ The payload is a json in the body containing following properties:
 | weight_total                | The total weight of the products.                                                                                                                                                        |  Float   |     Y     |
 | weight_unit                 | The weight unit of the total weight.                                                                                                                                                     |  String  |     Y     |
 | text_entry_end              | Some text you want to insert beneath the product listing.                                                                                                                                |  String  |     N     |
-| customer                    | The data about the customer. For further information see its own table documentation below. [Customer Object](#user-content-customer-object)                                                          |  Object  |     Y     |
-| invoice_address             | The data about the invoice address. For further information see its own table documentation below - column "Restricted". [R-Address Object](#user-content-address-object)                             |  Object  |     Y     |
-| delivery_address            | The data about the delivery address. For further information see its own table documentation below - column "Restricted". [R-Address Object](#user-content-address-object)                            |  Object  |     Y     |
-| sender_address              | The data about the sender location. For further information see its own table documentation below - column "Unrestricted". [U-Address Object](#user-content-address-object)                           |  Object  |     Y     |
-| contact_person_customer     | The data about one of two contact persons. For further information see its own table documentation below. [Contact Person Object](#user-content-contact-person-object)                                |  Object  |     Y     |
-| contact_person_construction | The data about one of two contact persons. For further information see its own table documentation below. [Contact Person Object](#user-content-contact-person-object)                                |  Object  |     N     |
-| products                    | The not empty list of products of the delivery note. For further information see its own table documentation below. [Product List Object](#user-content-product-list-object)                          |  Object  |     Y     |
+| customer                    | The data about the customer. For further information see its own table documentation below. [Customer Object](#customer-object)                                                          |  Object  |     Y     |
+| invoice_address             | The data about the invoice address. For further information see its own table documentation below - column "Restricted". [R-Address Object](#address-object)                             |  Object  |     Y     |
+| delivery_address            | The data about the delivery address. For further information see its own table documentation below - column "Restricted". [R-Address Object](#address-object)                            |  Object  |     Y     |
+| sender_address              | The data about the sender location. For further information see its own table documentation below - column "Unrestricted". [U-Address Object](#address-object)                           |  Object  |     Y     |
+| contact_person_customer     | The data about one of two contact persons. For further information see its own table documentation below. [Contact Person Object](#contact-person-object)                                |  Object  |     Y     |
+| contact_person_construction | The data about one of two contact persons. For further information see its own table documentation below. [Contact Person Object](#contact-person-object)                                |  Object  |     N     |
+| products                    | The not empty list of products of the delivery note. For further information see its own table documentation below. [Product List Object](#product-list-object)                          |  Object  |     Y     |
 
-<h3 id="customer-object">Customer Object</h3>
+### Customer Object
 
 | Property    | Description                                        | Datatype | Mandatory |
 |:------------|:---------------------------------------------------|:--------:|:---------:|
@@ -55,7 +55,7 @@ The payload is a json in the body containing following properties:
 | name        | The name of the customer.                          |  String  |     Y     |
 | name_suffix | Text beneath the customer name.                    |  String  |     N     |
 
-<h3 id="address-object">Address Object</h3>
+### Address Object
 
 | Property       | Description                                                        | Datatype | Mandatory <br/> Restricted | Mandatory </br> Unrestricted |
 |:---------------|:-------------------------------------------------------------------|:--------:|:--------------------------:|:----------------------------:|
@@ -66,7 +66,7 @@ The payload is a json in the body containing following properties:
 | city           | The city of the delivery address.                                  |  String  |             Y              |              Y               |
 | supplement     | The additional or complementary text beneath the delivery address. |  String  |             N              |              N               |
 
-<h3 id="contact-person-object">Contact Person Object</h3>
+### Contact Person Object
 
 | Property       | Description                              | Datatype |           Mandatory            |
 |:---------------|:-----------------------------------------|:--------:|:------------------------------:|
@@ -79,7 +79,7 @@ The payload is a json in the body containing following properties:
 | phone_landline | The landline phone number of the person. |  String  | phone_landline or phone_mobile |
 | phone_mobile   | The mobile phone number of the person.   |  String  | phone_landline or phone_mobile |
 
-<h3 id="product-list-object">Product List Object</h3>
+### Product List Object
 
 | Property            | Description                        | Datatype | Mandatory |
 |:--------------------|:-----------------------------------|:--------:|:---------:|
