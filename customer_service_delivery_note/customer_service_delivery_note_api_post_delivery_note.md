@@ -45,7 +45,7 @@ The payload is a json in the body containing following properties:
 | contact_person_construction | The data about one of two contact persons. For further information see its own table documentation below. [Contact Person Object](#contact-person-object)                                |  Object  |     N     |
 | products                    | The not empty list of products of the delivery note. For further information see its own table documentation below. [Product List Object](#product-list-object)                          |  Object  |     Y     |
 
-### Customer Object
+<h3 id="customer-object">Customer Object</h3>
 
 | Property    | Description                                        | Datatype | Mandatory |
 |:------------|:---------------------------------------------------|:--------:|:---------:|
@@ -55,7 +55,7 @@ The payload is a json in the body containing following properties:
 | name        | The name of the customer.                          |  String  |     Y     |
 | name_suffix | Text beneath the customer name.                    |  String  |     N     |
 
-### Address Object
+<h3 id="address-object">Address Object</h3>
 
 | Property       | Description                                                        | Datatype | Mandatory <br/> Restricted | Mandatory </br> Unrestricted |
 |:---------------|:-------------------------------------------------------------------|:--------:|:--------------------------:|:----------------------------:|
@@ -66,7 +66,7 @@ The payload is a json in the body containing following properties:
 | city           | The city of the delivery address.                                  |  String  |             Y              |              Y               |
 | supplement     | The additional or complementary text beneath the delivery address. |  String  |             N              |              N               |
 
-### Contact Person Object
+<h3 id="contact-person-object">Contact Person Object</h3>
 
 | Property       | Description                              | Datatype |           Mandatory            |
 |:---------------|:-----------------------------------------|:--------:|:------------------------------:|
@@ -79,7 +79,7 @@ The payload is a json in the body containing following properties:
 | phone_landline | The landline phone number of the person. |  String  | phone_landline or phone_mobile |
 | phone_mobile   | The mobile phone number of the person.   |  String  | phone_landline or phone_mobile |
 
-### Product List Object
+<h3 id="product-list-object">Product List Object</h3>
 
 | Property            | Description                        | Datatype | Mandatory |
 |:--------------------|:-----------------------------------|:--------:|:---------:|
