@@ -1,8 +1,8 @@
 # Update Delivery Note
 
-Update fields of the delivery note. (Currently only the state can be changed!)
+Its only supported to update the status field of the delivery note.
 
-**URL** : `/delivery_note/{id}`
+**URL** : `/customer_service/delivery_note/{id}`
 
 **Method** : `PATCH`
 
@@ -21,14 +21,14 @@ This is the id returned by the previous POST Delivery Note request.
 
 The payload is a json in the body. <br>
 Currently only the field 'state' is supported. <br>
-Only the values 'c' or 'canceled' are accepted as a valid state. <br>
+Only the values 'c' or 'cancel' or 'canceled' or 'cancelled' are accepted as a valid state. <br>
 All other payload properties will have no impact and return an '400 Bad Request' error.
 
 **Payload example**
 
 ```json
 {
-  "state": "canceled"
+  "state": "cancelled"
 }
 ```
 
