@@ -19,7 +19,7 @@ In order for the request to work the following headers are necessary: <br>
 
 The payload is a [JSON](https://en.wikipedia.org/wiki/JSON) in the body containing following properties:
 
-**Payload example**
+### Delivery Note
 
 | Property              | Description                                                                                                                                                                                                                                                                                                                                                                                              | Datatype | Mandatory |
 |:----------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------:|:---------:|
@@ -32,8 +32,8 @@ The payload is a [JSON](https://en.wikipedia.org/wiki/JSON) in the body containi
 | load_order_id         | Identification number of the load order                                                                                                                                                                                                                                                                                                                                                                  |  String  |    Yes    |
 | sales_order_id        | Identification number of the sales order                                                                                                                                                                                                                                                                                                                                                                 |  String  |    No     |
 | cost_center_id        | Cost center or project id of the customer                                                                                                                                                                                                                                                                                                                                                                |  String  |    No     |
-| license_plate_truck   | Truck license plate number                                                                                                                                                                                                                                                                                                                                                                               |  String  |    No     |
-| license_plate_trailer | Trailer license plate number                                                                                                                                                                                                                                                                                                                                                                             |  String  |    No     |
+| license_plate_truck   | License plate number of the truck                                                                                                                                                                                                                                                                                                                                                                        |  String  |    No     |
+| license_plate_trailer | License plate number of the trailer                                                                                                                                                                                                                                                                                                                                                                      |  String  |    No     |
 | driver_name           | Driver name                                                                                                                                                                                                                                                                                                                                                                                              |  String  |    No     |
 | creation_date         | Naive datetime of delivery note creation <br>*Data format according to ISO-8601/RFC-3339 without time zone: "%Y-%m-%d %H:%M:%S" (e.g. 2020-08-01 01:30:20). If a timezone is given (e.g. +02:00) an error will be thrown in order to guarantee a correct display.*                                                                                                                                       | Datetime |    Yes    |
 | cargo_item_amount     | Amount of items (colli) in the load <br>*Must be a positive number.*                                                                                                                                                                                                                                                                                                                                     | Integer  |    No     |
@@ -107,7 +107,7 @@ The payload is a [JSON](https://en.wikipedia.org/wiki/JSON) in the body containi
   "license_plate_truck": "W-28428M",
   "license_plate_trailer": "W-49058C",
   "driver_name": "Christian Bauer",
-  "creation_date": "2022-06-20T17:45:00.00000",
+  "creation_date": "2022-06-20 17:45:00.00000",
   "cargo_item_amount": "11",
   "text_prefix": "Material according to offer Nr. 1238921",
   "text_suffix": "Thank you for your purchase!",
@@ -212,7 +212,7 @@ If the request is successful, the HTTP code 201 is returned.
 
 The structure of the sent data is correct, but the process failed due to a validation error.
 
-**Beispiel Payload**
+**Payload example**
 
 ```json
 {
