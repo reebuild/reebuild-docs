@@ -268,6 +268,6 @@ Verschachtelte Elemente werden eingerückt retourniert.
 
 **Code** : `500 Internal Server Error`
 
-Es ist ein unerwarteter Fehler aufgetreten. Bitte kontaktieren Sie **support@reebuild.com** und übermitteln Sie den
+Es ist ein unerwarteter Fehler aufgetreten. Bitte kontaktieren Sie support@reebuild.com und übermitteln Sie den
 Payload, damit wir das
 Problem so schnell wie möglich beheben können.
