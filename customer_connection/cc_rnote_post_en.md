@@ -1,272 +1,255 @@
 # Return Delivery Note
 
-Sends the return delivery note data to the server.
-If the validation fails, a descriptive error will be returned.
-Will be saved otherwise and returns the created pk.
+This endpoint is used to create digital return delivery notes. The following documentation describes the data fields and
+gives examples.
 
-This is only possible if a delivery note was previously created on our system. 
-Else the error [Delivery note mismatch](#delivery-note-mismatch) will be thrown.
-
-**URL** : `/customer_service/return_delivery_note`
-
+**URL** : `https://api.reebuild.com/industry/customer_connection/return_delivery_note` <br>
 **Method** : `POST`
 
 ## Headers
 
-In order for the request to work the following header is necessary: <br>
+In order for the request to work the following headers are necessary: <br>
 
-**Content-Type** : `application/json`
+**Content-Type** : `application/json`<br>
+**Api-Key¹** : `<api-key>`
+
+¹ You receive the API-Key in the course of the OnBoarding by mail.
 
 ## Payload
 
-The payload is a json in the body containing following properties:
+The payload is a [JSON](https://en.wikipedia.org/wiki/JSON) in the body containing following properties:
 
-**Payload example**
+### Return Delivery Note
 
-| Property                    | Description                                                                                                                                                                                                                                 | Datatype | Mandatory |
-|:----------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------:|:---------:|
-| debug                       | This flag is used for development. If it is 'True' the data sent will be persisted, but not sent to other systems. That way you can still test other endpoint functionalities.                                                              |   Bool   |     N     |
-| delivery_date               | The naive datetime when the delivery is expected. The format is localized "%Y-%m-%d %H:%M:%S". This will be displayed on the delivery note pdf. If a timezone is given (e.g. +02:00) an error will be thrown in order to prevent confusion. | Datetime |     Y     |
-| creator                     | The creator of the delivery note.                                                                                                                                                                                                           |  String  |     Y     |
-| editor                      | The editor of the delivery note.                                                                                                                                                                                                            |  String  |     Y     |
-| order_id                    | The identification of the order you made in your system.                                                                                                                                                                                    |  String  |     N     |
-| return_delivery_note_id     | The identification of the return delivery note in your system.                                                                                                                                                                              |  String  |     Y     |
-| reference_delivery_note_id  | The identification of the referenced delivery note in your system.                                                                                                                                                                          |  String  |     Y     |
-| load_order_id               | The identification of the order/job to load the truck.                                                                                                                                                                                      |  String  |     N     |
-| job_id                      | The job number of the delivery note.                                                                                                                                                                                                        |  String  |     Y     |
-| cost_center_id              | The cost centre or project id of the customer.                                                                                                                                                                                              |  String  |     Y     |
-| creation_place              | The creation place of the delivery note.                                                                                                                                                                                                    |  String  |     Y     |
-| creation_date               | The naive creation datetime of the delivery note with format localized "%Y-%m-%d %H:%M:%S". This will be displayed on the delivery note pdf. If a timezone is given (e.g. +02:00) an error will be thrown in order to prevent confusion.    | Datetime |     Y     |
-| colli_amount                | The amount of collis in the delivery. Must be a positive number.                                                                                                                                                                            | Integer  |     Y     |
-| text_entry_product_prefix   | Some text you want to insert above the product listing.                                                                                                                                                                                     |  String  |     N     |
-| weight_total                | The total weight of the products. Must be a positive number.                                                                                                                                                                                |  Float   |     Y     |
-| weight_unit                 | The weight unit of the total weight.                                                                                                                                                                                                        |  String  |     Y     |
-| text_entry_end              | Some text you want to insert beneath the product listing.                                                                                                                                                                                   |  String  |     N     |
-| customer                    | The data about the customer. For further information see its own table documentation below. [Customer Object](#customer-object)                                                                                                             |  Object  |     Y     |
-| invoice_address             | The data about the invoice address. For further information see its own table documentation below - column "Restricted". [R-Address Object](#address-object)                                                                                |  Object  |     Y     |
-| delivery_address            | The data about the delivery address. For further information see its own table documentation below - column "Restricted". [R-Address Object](#address-object)                                                                               |  Object  |     Y     |
-| sender_address              | The data about the sender location. For further information see its own table documentation below - column "Unrestricted". [U-Address Object](#address-object)                                                                              |  Object  |     Y     |
-| contact_person_customer     | The data about one of two contact persons. For further information see its own table documentation below. [Contact Person Object](#contact-person-object)                                                                                   |  Object  |     N     |
-| contact_person_construction | The data about one of two contact persons. For further information see its own table documentation below. [Contact Person Object](#contact-person-object)                                                                                   |  Object  |     N     |
-| products                    | The not empty list of products of the delivery note. For further information see its own table documentation below. [Product List Object](#product-list-object)                                                                             |  Object  |     Y     |
+| Property                     | Description                                                                                                                                                                                                                                                                                                                                                                                                     | Datatype | Mandatory |
+|:-----------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------:|:---------:|
+| debug                        | This flag allows free testing of the connection <br>*If it's "True", sent data will be saved but not processed further in our systems. In this case, no digital delivery note is created, only the function of the API can be tested. The flag is set to "True" automatically if the provided API-Key has the role "Debug".*                                                                                                                                                                         |   Bool   |    No     |
+| delivery_date                | Naive datetime of expected return delivery <br>*Data format according to ISO-8601/RFC-3339 without time zone: "%Y-%m-%d %H:%M:%S" (e.g. 2020-08-01 01:30:20) or "%Y-%m-%dT%H:%M:%S" (z.B. 2020-08-01T01:30:20). If a timezone is given (e.g. +02:00) an error will be thrown in order to guarantee a correct display.*                                                                                          | Datetime |    Yes    |
+| creator_return_order         | Name or initials of the author of the return order <br>*Creator of return_order_id*                                                                                                                                                                                                                                                                                                                             |  String  |    No     |
+| creator_return_delivery_note | Name or initials of the author of the return delivery note  <br>*Creator of return_delivery_note_id*                                                                                                                                                                                                                                                                                                            |  String  |    No     |
+| customer_purchase_id         | Order number of the customer                                                                                                                                                                                                                                                                                                                                                                                    |  String  |    No     |
+| return_delivery_note_id      | Identification number of the return delivery note                                                                                                                                                                                                                                                                                                                                                               |  String  |    Yes    |
+| reference_sales_order_id     | Reference order <br> *Identification number of the reference sales order*                                                                                                                                                                                                                                                                                                                                       |  String  |    Yes    |
+| load_order_id                | Identification number of the load order                                                                                                                                                                                                                                                                                                                                                                         |  String  |    No     |
+| return_order_id              | Identification number of the return order                                                                                                                                                                                                                                                                                                                                                                       |  String  |    No     |
+| cost_center_id               | Cost center or project id of the customer                                                                                                                                                                                                                                                                                                                                                                       |  String  |    No     |
+| license_plate_truck          | License plate number of the truck                                                                                                                                                                                                                                                                                                                                                                               |  String  |    No     |
+| license_plate_trailer        | License plate number of the trailer                                                                                                                                                                                                                                                                                                                                                                             |  String  |    No     |
+| driver_name                  | Driver name                                                                                                                                                                                                                                                                                                                                                                                                     |  String  |    No     |
+| creation_date                | Naive datetime of return delivery note creation <br>*Data format according to ISO-8601/RFC-3339 without time zone: "%Y-%m-%d %H:%M:%S" (e.g. 2020-08-01 01:30:20) or "%Y-%m-%dT%H:%M:%S" (z.B. 2020-08-01T01:30:20). If a timezone is given (e.g. +02: 00) an error will be thrown in order to guarantee a correct display.*                                                                                    | Datetime |    Yes    |
+| cargo_item_amount            | Amount of items (colli) in the load <br>*Must be a positive number.*                                                                                                                                                                                                                                                                                                                                            | Integer  |    No     |
+| text_prefix                  | Free text entry between address line and product list                                                                                                                                                                                                                                                                                                                                                           |  String  |    No     |
+| text_suffix                  | Free text entry between Product list and footer                                                                                                                                                                                                                                                                                                                                                                 |  String  |    No     |
+| weight_total                 | Total weight of the products <br>*Must be a positive number.*                                                                                                                                                                                                                                                                                                                                                   |  Float   |    Yes    |
+| weight_unit                  | Weight unit of the total weight                                                                                                                                                                                                                                                                                                                                                                                 |  String  |    Yes    |
+| customer                     | Data on the customer <br>*For further information, see the **Customer** table below.*                                                                                                                                                                                                                                                                                                                           |  Object  |    Yes    |
+| invoice_address              | Data on the invoice address <br>*For further information, see the **Address** table below.*                                                                                                                                                                                                                                                                                                                     |  Object  |    Yes    |
+| delivery_address             | Data of the initial delivery address ( reference order) <br>*For further information, see the **Address** table below.*                                                                                                                                                                                                                                                                                         |  Object  |    Yes    |
+| sender_address               | Data on the initial sender address (reference order) <br>*For further information, see the **Address** table below.*                                                                                                                                                                                                                                                                                            |  Object  |    Yes    |
+| purchaser                    | Data on the purchasing person (reference order) <br>*For further information, see the **Person** table below.*                                                                                                                                                                                                                                                                                                  |  Object  |    No     |
+| receiver                     | Data on the contact person, who has received the initial delivery (reference order) <br> *After delivery, the delivery note is automatically sent to this mail address. <br>For further information, see **Person** below.*                                                                                                                                                                                     |  Object  |    Yes    |
+| products                     | List of all products on the return delivery note <br>*- The order of the products is maintained. <br>- It is possible to use a product with the same item number more than once. <br>- There will be a validation error if products with the same item number have different units. <br>- There will be a validation error if the amount is <= 0.<br> For further information see the **Product** table below.* |  Object  |    Yes    |
 
-### Customer Object
+### Customer
 
-| Property    | Description                      | Datatype | Mandatory |
-|:------------|:---------------------------------|:--------:|:---------:|
-| customer_id | Your intern customer identifier. |  String  |     N     |
-| tax_uid     | Identifier of the tax number.    |  String  |     Y     |
-| name_prefix | Text above the customer name.    |  String  |     N     |
-| name        | The name of the customer.        |  String  |     Y     |
-| name_suffix | Text beneath the customer name.  |  String  |     N     |
+| Property    | Description                              | Datatype | Mandatory |
+|:------------|:-----------------------------------------|:--------:|:---------:|
+| customer_id | Your intern customer identifier          |  String  |    Yes    |
+| tax_uid     | Tax number or VAT number of the customer |  String  |    No     |
+| name_prefix | Preceding text addition to customer name |  String  |    No     |
+| name        | Name of the client organization          |  String  |    Yes    |
+| name_suffix | Posterior text addition to customer name |  String  |    No     |
 
-### Address Object
+### Address
 
-| Property       | Description                                                        | Datatype | Mandatory <br/> Restricted | Mandatory </br> Unrestricted |
-|:---------------|:-------------------------------------------------------------------|:--------:|:--------------------------:|:----------------------------:|
-| address_prefix | Text above the address.                                            |  String  |             N              |              N               |
-| street         | The delivery street.                                               |  String  |             Y              |              N               |
-| house_nr       | The delivery house_nr.                                             |  String  |             Y              |              N               |
-| zip            | The post code of the delivery address.                             |  String  |             Y              |              N               |
-| city           | The city of the delivery address.                                  |  String  |             Y              |              Y               |
-| supplement     | The additional or complementary text beneath the delivery address. |  String  |             N              |              N               |
+| Property        | Description                                           | Datatype | Mandatory |
+|:----------------|:------------------------------------------------------|:--------:|:---------:|
+| address_prefix  | Preceding address addition                            |  String  |    No     |
+| street          | Street of the entity                                  |  String  |    Yes    |
+| house_nr        | House number of the entity                            |  String  |    Yes    |
+| zip             | Post code of the entity                               |  String  |    Yes    |
+| city            | City of the entity                                    |  String  |    Yes    |
+| country         | Country of the entity                                 |  String  |    Yes    |
+| additional_info | Additional or complementary information of the entity |  String  |    No     |
 
-### Contact Person Object
+### Person
 
-| Property       | Description                              | Datatype |           Mandatory            |
-|:---------------|:-----------------------------------------|:--------:|:------------------------------:|
-| name_prefix    | The prefix of the persons name.          |  String  |               N                |
-| first_name     | The first name of the person.            |  String  |               Y                |
-| last_name      | The last name of the person.             |  String  |               Y                |
-| name_suffix    | The suffix of the persons name.          |  String  |               N                |
-| fax            | The fax of the person.                   |  String  |               N                |
-| mail           | The mail of the person.                  |  String  |               Y                |
-| phone_landline | The landline phone number of the person. |  String  | phone_landline or phone_mobile |
-| phone_mobile   | The mobile phone number of the person.   |  String  | phone_landline or phone_mobile |
+| Property       | Description                         | Datatype |           Mandatory            |
+|:---------------|:------------------------------------|:--------:|:------------------------------:|
+| name_prefix    | Preceding title                     |  String  |               No               |
+| first_name     | First name of the person            |  String  |               No               |
+| last_name      | Last name of the person             |  String  |              Yes               |
+| name_suffix    | Posterior title                     |  String  |               No               |
+| mail           | Mail of the person                  |  String  |              Yes               |
+| phone_landline | Landline phone number of the person |  String  | phone_landline or phone_mobile |
+| phone_mobile   | Mobile phone number of the person   |  String  | phone_landline or phone_mobile |
 
 ### Product List Object
 
-The order of the products will be persisted. <br>
-It is possible to pass a product with the same article_number several times. <br>
-There will be a validation error if the products with the same article_number have different units. <br>
-There will be a validation error if the amount is <= 0. <br>
+| Property       | Description                                             | Datatype | Mandatory |
+|:---------------|:--------------------------------------------------------|:--------:|:---------:|
+| amount         | Amount of the product <br> *Must be a positive number.* |  Float   |    Yes    |
+| unit           | Unit of the product                                     |  String  |    Yes    |
+| article_id | Article number of the product                           |  String  |    Yes    |
+| article_name   | Name of the product                                     |  String  |    Yes    |
 
-| Property            | Description                                           | Datatype | Mandatory |
-|:--------------------|:------------------------------------------------------|:--------:|:---------:|
-| amount              | The amount of the product. Must be a positive number. |  Float   |     Y     |
-| unit                | The unit of the product.                              |  String  |     Y     |
-| article_number      | The article number of the product.                    |  String  |     Y     |
-| article_description | The description of the product.                       |  String  |     Y     |
-
-**Payload example without description**
+### Request payload example
 
 ```json
 {
-  "reference_delivery_note_id": "Lieferscheinnummer 125",
-  "return_delivery_note_id": "return Lieferscheinnummer 123",
   "delivery_date": "2022-07-20 17:48:32.179951",
-  "creator": "a. k.",
-  "editor": "c. m.",
+  "creator_return_order": "Herbert Maurer",
+  "creator_return_delivery_note": "Alina Berger",
+  "customer_purchase_id": "326.991",
+  "return_delivery_note_id": "RS22/24561",
+  "reference_sales_order_id": "A22/405363",
+  "load_order_id": "LA22/106435",
+  "return_order_id": "A22/405466",
+  "cost_center_id": "221",
+  "license_plate_truck": "W-28428M",
+  "license_plate_trailer": "W-49058C",
+  "driver_name": "Christian Bauer",
+  "creation_date": "2022-06-20 17:45:00.00000",
+  "cargo_item_amount": "1",
+  "text_prefix": "Return for order Nr. A22/405363",
+  "text_suffix": "Thank you",
+  "weight_total": "0.2",
+  "weight_unit": "To",
   "customer": {
-    "tax_uid": "U1222RH",
-    "name": "Max schoebl GmbH"
+    "customer_id": "256879",
+    "tax_uid": "ATU 564 489 87",
+    "name_prefix": "Some infos",
+    "name": "Name of the company GmbH",
+    "name_suffix": "Department XY"
   },
   "invoice_address": {
+    "address_prefix": "",
     "street": "Invoice address",
     "house_nr": "123",
     "zip": "1130",
-    "city": "Vienna"
+    "city": "Vienna",
+    "country": "Austria",
+    "additional_info": "Floor 7"
   },
   "delivery_address": {
+    "address_prefix": "Coffee at the Corner",
     "street": "Delivery address",
-    "house_nr": "123",
+    "house_nr": "66",
     "zip": "1100",
-    "city": "Vienna"
+    "city": "Vienna",
+    "country": "Austria",
+    "additional_info": "please come to the back entrance"
   },
   "sender_address": {
-    "city": "Vienna"
+    "address_prefix": "",
+    "street": "Sender address",
+    "house_nr": "12",
+    "zip": "1160",
+    "city": "Vienna",
+    "country": "Austria",
+    "additional_info": ""
   },
-  "cost_center_id": "PN7231G6",
-  "job_id": "A22305/63-0003",
-  "creation_place": "Vienna 1170",
-  "creation_date": "2022-06-20T17:45:00.00000",
-  "colli_amount": "11",
+  "purchaser": {
+    "name_prefix": "",
+    "first_name": "Gregovic",
+    "last_name": "Haubenbrenner",
+    "name_suffix": "MSc",
+    "mail": "gregovic.haubenbrenner@company.com",
+    "phone_landline": "01 445 9999",
+    "phone_mobile": "+43 664 445 9999"
+  },
+  "receiver": {
+    "name_prefix": "Ing.",
+    "first_name": "Roman",
+    "last_name": "Bauer",
+    "name_suffix": "",
+    "mail": "roman.bauer@company.com",
+    "phone_landline": "01 555 9999",
+    "phone_mobile": "+43 676 458 9324"
+  },
   "products": [
     {
       "amount": "1",
       "unit": "STK",
-      "article_number": "A341234U2",
-      "article_description": "Fensterglas groeße 3"
+      "article_id": "6987324",
+      "article_name": "Produkt XY size 3"
     }
-  ],
-  "weight_total": "50",
-  "weight_unit": "kg"
+  ]
 }
 ```
 
-## Success Response
+## Responses
 
 **Code** : `201 CREATED`
 
-The terminology pk stands for primary key and was chosen to distinguish the customer given 'ids' and the internal 'pks'
-for serverside items.
-If the request was valid there will be a response json with the pk of the saved return delivery note.
-The field named 'pk' might be needed for further requests.
+If the request is successful, the HTTP code 201 is returned.
 
-**Content examples**
+**Payload example**
 
 ```json
 {
-  "content": {
-    "pk": 19
-  },
   "response_code": 201
 }
 ```
 
-## Failure Response
+**Code** : `400 BAD REQUEST`
 
-**Code** : '400 Bad Request'
+The structure of the sent data is correct, but the process failed due to a validation error.
 
-### Validation Error
+**Payload example**
 
-If our validation determines that there are missing fields there will be a 400 response like the following.
+```json
+{
+    "code": 400,
+    "errors": "One and the same article is described more than once with different units of measurements! Please use the same unit of measurement!",
+    "status": "InvalidOperation"
+}
+```
+
+**Code** : `409 Conflict`
+
+There was an internal error.
+It is recommended to retry the request.
+If it still fails, please contact support@reebuild.com with the payload, so we can fix this as soon as possible.
+
+**Code** : `422 UNPROCESSABLE ENTITY`
+
+If sent data is incomplete or faulty there will be a 422 response like the following.
 The response will indicate what fields are missing in the json.
-All missing nested fields will be printed in a separate nested lines..
+All missing nested fields will be printed in a separate nested lines.
 
-**Content examples**
+**Payload example**
 
 ```json
 {
-  "error_code": 400,
-  "messages": {
-    "contact_person_construction": [
-      "Missing data for required field."
-    ],
-    "delivery_date": [
-      "Not a valid datetime."
-    ],
-    "invoice_address": {
-      "house_nr": [
-        "Missing data for required field."
-      ]
+    "code": 422,
+    "errors": {
+        "json": {
+            "delivery_address": {
+                "city": [
+                    "Missing data for required field."
+                ]
+            },
+            "return_delivery_note_id": [
+                "Missing data for required field."
+            ],
+            "products": {
+                "1": {
+                    "article_id": [
+                        "Missing data for required field."
+                    ],
+                    "article_name": [
+                        "Missing data for required field."
+                    ]
+                }
+            }
+        }
     },
-    "job_id": [
-      "Missing data for required field."
-    ],
-    "products": {
-      "0": {
-        "amount": [
-          "Not a valid number."
-        ]
-      }
-    },
-    "weight_total": [
-      "Not a valid number."
-    ]
-  }
+    "status": "Unprocessable Entity"
 }
 ```
 
-### Delivery note mismatch
+**Code** : `500 Internal Server Error`
 
-```json
-{
-  "error_code": 400,
-  "messages": "No matching 'delivery_note' with pk: 'not_existing_note'!"
-}
-```
-
-### Cost center mismatch
-
-```json
-{
-  "error_code": 400,
-  "messages": "Given cost center does not match! Given cost center was '98765Example' but '56789Example' was expected!"
-}
-```
-
-### Product mismatch
-
-```json
-{
-  "error_code": 400,
-  "messages": "No matching product ' <DReturnProduct>: { amount: 2.0, unit: STK, article_number: A341234U2not same }' found on orig delivery note with id: '123ExampleID'!"
-}
-```
-
-### Customer mismatch
-
-```json
-{
-  "error_code": 400,
-  "messages": "Given customer id does not match! Given customer id was 'c7bea9c92b56-8f28-a784-e770-81a0cf5c' but 'c5fc0a18-077e-487a-82f8-65b29c9aeb7c' was expected!"
-}
-```
-
-### Unit mismatch
-
-```json
-{
-  "error_code": 400,
-  "messages": "Given unit of measurement does not match! Given unit of measurement was 'USD' but 'EUR' was expected!"
-}
-```
-
-### Amount mismatch
-
-```json
-{
-  "error_code": 400,
-  "messages": "It is not possible to return a bigger amount of wares than received! Given amount was 847.0 but a maximum of 837.0 was expected!"
-}
-```
-
-**Code** : '409 Conflict'
-
-There was an error with the intern mapping. Please contact support@reebuild.com with the payload, so we can fix this
-asap.
-
-**Code** : '500 Internal Server Error'
-
-There was an unexpected error. Please contact support@reebuild.com with the payload, so we can fix this asap. 
+There was an unexpected error. Please contact support@reebuild.com with the payload, so we can fix this as soon as
+possible. 
