@@ -11,7 +11,7 @@ examples.
 In order for the request to work the following headers are necessary: <br>
 
 **Content-Type** : `application/json`<br>
-**Api-Key¹** : `Api-Key`
+**Api-Key¹** : `<api-key>`
 
 ¹ You receive the API-Key in the course of the OnBoarding by mail.
 
