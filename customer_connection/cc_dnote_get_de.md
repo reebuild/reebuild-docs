@@ -1,28 +1,29 @@
-# Lieferschein
+# Lieferschein Pdf
 
 Dieser Endpoint dient zum Abholen von digitalen Lieferscheinen in PDF Form. 
 
-**URL** : `https://api.reebuild.com/industry/customer_connection/delivery_note` <br>
+**URL** : `https://api.reebuild.com/industry/customer_connection/delivery_note/<deliveryNoteId>/pdf` 
+
 **Method** : `GET`
 
 ## Header
 
 Die folgenden Header müssen im HTTP-Request gesetzt sein: <br>
 
-**Content-Type** : `application/pdf` <br>
+**Content-Type** : `application/pdf`
+
 **Api-Key¹** : `<api-key>`
 
 ¹ Der API-Key wird Ihnen im Zuge des OnBoardings per Mail zugesendet.
 
-## Query Parameter
+## Url Parameter
 
-Die folgenden Query Parameter müssen gesetzt sein: <br>
-
-**deliveryNoteId** : `Ihre Lieferscheinnummer` <br>
+Der `deliveryNoteId` Abschnitt der Url wird dazu benutzt, um Ihren Lieferschein zu identifizieren. <br>
+Beim Einsetzen dieses Wertes, entfernen Sie bitte die spitzen Klammern.
 
 ## Beispiel
 
-**URL** : `https://api.reebuild.com/industry/customer_connection/delivery_note?deliveryNoteId=LS2635G9` <br>
+**URL** : `https://api.reebuild.com/industry/customer_connection/delivery_note/LS2635G9/pdf` <br>
 
 ## Responses
 

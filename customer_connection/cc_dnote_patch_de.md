@@ -1,4 +1,4 @@
-# Update Delivery Note
+# Lieferschein aktualisieren
 
 Dieser Endpunkt dient dazu Änderungen an Lieferscheinen vorzunehmen. <br>
 Aktuell ist die einzige freigeschaltete Operation den Status zu verändern. <br>
@@ -12,12 +12,13 @@ Dieser kann nur auf storniert gesetzt werden, wenn gegebener Lieferschein noch n
 
 Die folgenden Header müssen im HTTP-Request gesetzt sein: <br>
 
-**Content-Type** : `application/json` <br>
+**Content-Type** : `application/json`
+
 **Api-Key¹** : `<api-key>`
 
 ¹ Der API-Key wird Ihnen im Zuge des OnBoardings per Mail zugesendet.
 
-## Url
+## Url Parameter
 
 Der `deliveryNoteId` Abschnitt der Url wird dazu benutzt, um Ihren fehlerhaften Lieferschein zu identifizieren. <br>
 Beim Einsetzen dieses Wertes, entfernen Sie bitte die spitzen Klammern.

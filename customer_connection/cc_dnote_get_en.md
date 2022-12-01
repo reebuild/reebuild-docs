@@ -1,28 +1,29 @@
-# Delivery Note
+# Delivery Note Pdf
 
 This endpoint is used to retrieve delivery notes in PDF form.
 
-**URL** : `https://api.reebuild.com/industry/customer_connection/delivery_note` <br>
+**URL** : `https://api.reebuild.com/industry/customer_connection/delivery_note/<deliveryNoteId>/pdf`
+
 **Method** : `GET`
 
 ## Header
 
 The following headers must be set: <br>
 
-**Content-Type** : `application/pdf` <br>
+**Content-Type** : `application/pdf`
+
 **Api-Key¹** : `<api-key>`
 
 ¹ You receive the API-Key in the course of the OnBoarding by mail.
 
-## Query Parameter
+## Url Parameter
 
-The following query parameters must be set: <br>
-
-**deliveryNoteId** : `Identification of the delivery note` <br>
+The `deliveryNoteId` url section is used to identify your delivery bill. <br>
+When replacing the `deliveryNoteId` value, please remove the angle brackets.
 
 ## Example
 
-**URL** : `https://api.reebuild.com/industry/customer_connection/delivery_note?deliveryNoteId=LS2635G9` <br>
+**URL** : `https://api.reebuild.com/industry/customer_connection/delivery_note/LS2635G9/pdf` <br>
 
 ## Responses
 

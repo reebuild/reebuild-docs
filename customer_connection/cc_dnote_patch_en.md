@@ -12,12 +12,13 @@ It can only be set to canceled if the given delivery note has not been signed ye
 
 The following headers must be set: <br>
 
-**Content-Type** : `application/json` <br>
+**Content-Type** : `application/json`
+
 **Api-Key¹** : `<api-key>`
 
 ¹ You receive the API-Key in the course of the OnBoarding by mail.
 
-## Url
+## Url Parameter
 
 The `deliveryNoteId` url section is used to identify your incorrect delivery bill. <br>
 When replacing the `deliveryNoteId` value, please remove the angle brackets.
