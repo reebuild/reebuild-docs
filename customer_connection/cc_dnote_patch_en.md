@@ -26,7 +26,7 @@ When replacing the `deliveryNoteId` value, please remove the angle brackets.
 ## Payload
 
 The payload is a [JSON](https://en.wikipedia.org/wiki/JSON) in the body. <br>
-Currently only the field `new_state` is supported. <br>
+Currently only the field `state` is supported. <br>
 There is only one allowed value: `CANCELLED` <br>
 
 ## Example
@@ -35,7 +35,7 @@ There is only one allowed value: `CANCELLED` <br>
 **Payload** :
 ```json
 {
-  "new_state": "CANCELLED"
+  "state": "CANCELLED"
 }
 ```
 

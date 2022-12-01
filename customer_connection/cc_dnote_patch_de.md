@@ -26,7 +26,7 @@ Beim Einsetzen dieses Wertes, entfernen Sie bitte die spitzen Klammern.
 ## Payload
 
 Der Payload muss als [JSON](https://en.wikipedia.org/wiki/JSON)-Datei gesendet werden. <br>
-Aktuell wird nur das Feld `new_state` unterstützt. <br>
+Aktuell wird nur das Feld `state` unterstützt. <br>
 Es gibt aktuell nur einen zulässigen Wert: `CANCELLED` <br>
 
 ## Beispiel
@@ -35,7 +35,7 @@ Es gibt aktuell nur einen zulässigen Wert: `CANCELLED` <br>
 **Payload** :
 ```json
 {
-  "new_state": "CANCELLED"
+  "state": "CANCELLED"
 }
 ```
 
