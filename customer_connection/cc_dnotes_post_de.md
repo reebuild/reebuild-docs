@@ -1,10 +1,11 @@
 # Lieferschein
 
-Dieser Endpoint dient zum Erstellen von einzelnen digitalen Lieferscheinen. 
-Ein anderer Endpoint behandelt das gleichzeitige Erstellen von mehreren Lieferscheinen.
+Dieser Endpoint dient zum gleichzeitigen Erstellen von mehreren digitalen Lieferscheinen. 
+Ein anderer Endpoint behandelt das einzelne Erstellen von Lieferscheinen.
+Falls die Operation fehlschlägt, wird kein Lieferschein erstellt und Sie haben somit keine unvollständigen Ladeaufträge.
 Die folgende Dokumentation beschreibt die Datenfelder und gibt Beispiele zur Anwendung. 
 
-**URL** : `https://api.reebuild.com/industry/customer_connection/delivery_note` <br>
+**URL** : `https://api.reebuild.com/industry/customer_connection/delivery_notes` <br>
 **Method** : `POST`
 
 ## Headers
@@ -20,11 +21,18 @@ Die folgenden Header müssen im HTTP-Request gesetzt sein: <br>
 
 Der Payload muss als [JSON](https://en.wikipedia.org/wiki/JSON)-Datei gesendet werden.
 
+### Struktur
+| Variable       | Beschreibung                                                                                                                                                                                                                                                                                                                                                                                             | Datentyp | Pflichtangabe |
+|:---------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------:|:-------------:|
+| debug          | Diese Variable ermöglicht ein kostenloses Testen der Anbindung <br>*Wenn sie auf "True" gesetzt ist, werden gesendete Daten gespeichert, aber in unseren Systemen nicht weiter verarbeitet. In diesem Fall wird kein digitaler Lieferschein erstellt, es kann lediglich die Funktion der API getestet werden. Wenn der API-Key die Rolle "Debug" hat, wird diese Flag automatisiert auf "True" gesetzt.* |   Bool   |     Nein      |
+| load_order_id  | Die Ladeauftragsnummer aller in diesem json enthaltenen Lieferscheine. Falls diese nicht übereinstimmen, wird ein Fehler retourniert.                                                                                                                                                                                                                                                                    |  String  |      Ja       |
+| delivery_notes | Liste der Lieferscheine. (Siehe Kapitel Lieferschein)                                                                                                                                                                                                                                                                                                                                                    |  Object  |      Ja       |
+
+
 ### Lieferschein
 
 | Variable              | Beschreibung                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Datentyp | Pflichtangabe |
 |:----------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------:|:-------------:|
-| debug                 | Diese Variable ermöglicht ein kostenloses Testen der Anbindung <br>*Wenn sie auf "True" gesetzt ist, werden gesendete Daten gespeichert, aber in unseren Systemen nicht weiter verarbeitet. In diesem Fall wird kein digitaler Lieferschein erstellt, es kann lediglich die Funktion der API getestet werden. Wenn der API-Key die Rolle "Debug" hat, wird diese Flag automatisiert auf "True" gesetzt.*                                                                                    |   Bool   |     Nein      |
 | delivery_date         | Voraussichtlicher Liefertermin <br>*Datenformat nach ISO-8601/RFC-3339 ohne Zeitzone: "%Y-%m-%d %H:%M:%S" (z.B. 2020-08-01 01:30:20) oder "%Y-%m-%dT%H:%M:%S" (z.B. 2020-08-01T01:30:20). Zeitstempel mit Zeitzone (z.B. +02:00) werden nicht akzeptiert, um eine richtige Anzeige zu garantieren.*                                                                                                                                                                                         | Datetime |      Ja       |
 | creator_sales_order   | Name oder Kürzel der Ersteller:in des Verkaufsauftrags <br>*Ersteller der sales_order_id*                                                                                                                                                                                                                                                                                                                                                                                                   |  String  |     Nein      |
 | creator_delivery_note | Name oder Kürzel der Ersteller:in des Lieferscheins <br>*Ersteller der delivery_note_id*                                                                                                                                                                                                                                                                                                                                                                                                    |  String  |     Nein      |
@@ -97,101 +105,105 @@ Der Payload muss als [JSON](https://en.wikipedia.org/wiki/JSON)-Datei gesendet w
 
 ```json
 {
-  "delivery_date": "2022-07-20 17:48:32.179951",
-  "creator_sales_order": "Herbert Maurer",
-  "creator_delivery_note": "Alina Berger",
-  "customer_purchase_id": "326.890",
-  "delivery_note_id": "LS22/564123",
-  "load_order_id": "LA22/106435",
-  "sales_order_id": "A22/405363",
-  "cost_center_id": "221",
-  "license_plate_truck": "W-28428M",
-  "license_plate_trailer": "W-49058C",
-  "driver_name": "Christian Bauer",
-  "creation_date": "2022-06-20 17:45:00.00000",
-  "cargo_item_amount": "11",
-  "text_prefix": "Material laut Angebot Nr. 1238921",
-  "text_suffix": "Vielen Dank für Ihre Bestellung",
-  "weight_total": "1.5",
-  "weight_unit": "To",
-  "customer": {
-    "customer_id": "256879",
-    "tax_uid": "ATU 564 489 87",
-    "name_prefix": "Informationen",
-    "name": "Name der Firma GmbH",
-    "name_suffix": "Abteilung XY"
-  },
-  "invoice_address": {
-    "address_prefix": "",
-    "street": "Rechnungsadresse",
-    "house_nr": "123",
-    "zip": "1130",
-    "city": "Wien",
-    "country": "Oesterreich",
-    "additional_info": "Stock 7"
-  },
-  "delivery_address": {
-    "address_prefix": "Kaffee an der Ecke",
-    "street": "Lieferadresse",
-    "house_nr": "66",
-    "zip": "1100",
-    "city": "Wien",
-    "country": "Oesterreich",
-    "additional_info": "Bitte zum Hintereingang kommen"
-  },
-  "sender_address": {
-    "address_prefix": "",
-    "street": "Absenderadresse",
-    "house_nr": "12",
-    "zip": "1160",
-    "city": "Wien",
-    "country": "Oesterreich",
-    "additional_info": ""
-  },
-  "purchaser": {
-    "name_prefix": "",
-    "first_name": "Gregovic",
-    "last_name": "Haubenbrenner",
-    "name_suffix": "MSc",
-    "mail": "gregovic.haubenbrenner@company.com",
-    "phone_landline": "01 445 9999",
-    "phone_mobile": "+43 664 445 9999"
-  },
-  "receiver": {
-    "name_prefix": "Ing.",
-    "first_name": "Roman",
-    "last_name": "Bauer",
-    "name_suffix": "",
-    "mail": "roman.bauer@company.com",
-    "phone_landline": "01 555 9999",
-    "phone_mobile": "+43 676 458 9324"
-  },
-  "products": [
-    {
-      "amount": "2",
-      "unit": "STK",
-      "article_id": "6987324",
-      "article_name": "Produkt XY groeße 3"
-    },
-    {
-      "amount": "1",
-      "unit": "STK",
-      "article_id": "6987323",
-      "article_name": "Produkt XY groeße 2"
-    },
-    {
-      "amount": "500.5",
-      "unit": "KG",
-      "article_id": "6946722",
-      "article_name": "Produkt YX"
-    },
-    {
-      "amount": "0.75",
-      "unit": "m3",
-      "article_id": "A812301",
-      "article_name": "Produkt 4"
-    }
-  ]
+    "debug": "True",
+    "load_order_id": "LA22/106435",
+    "delivery_notes": [{
+      "delivery_date": "2022-07-20 17:48:32.179951",
+      "creator_sales_order": "Herbert Maurer",
+      "creator_delivery_note": "Alina Berger",
+      "customer_purchase_id": "326.890",
+      "delivery_note_id": "LS22/564123",
+      "load_order_id": "LA22/106435",
+      "sales_order_id": "A22/405363",
+      "cost_center_id": "221",
+      "license_plate_truck": "W-28428M",
+      "license_plate_trailer": "W-49058C",
+      "driver_name": "Christian Bauer",
+      "creation_date": "2022-06-20 17:45:00.00000",
+      "cargo_item_amount": "11",
+      "text_prefix": "Material laut Angebot Nr. 1238921",
+      "text_suffix": "Vielen Dank für Ihre Bestellung",
+      "weight_total": "1.5",
+      "weight_unit": "To",
+      "customer": {
+        "customer_id": "256879",
+        "tax_uid": "ATU 564 489 87",
+        "name_prefix": "Informationen",
+        "name": "Name der Firma GmbH",
+        "name_suffix": "Abteilung XY"
+      },
+      "invoice_address": {
+        "address_prefix": "",
+        "street": "Rechnungsadresse",
+        "house_nr": "123",
+        "zip": "1130",
+        "city": "Wien",
+        "country": "Oesterreich",
+        "additional_info": "Stock 7"
+      },
+      "delivery_address": {
+        "address_prefix": "Kaffee an der Ecke",
+        "street": "Lieferadresse",
+        "house_nr": "66",
+        "zip": "1100",
+        "city": "Wien",
+        "country": "Oesterreich",
+        "additional_info": "Bitte zum Hintereingang kommen"
+      },
+      "sender_address": {
+        "address_prefix": "",
+        "street": "Absenderadresse",
+        "house_nr": "12",
+        "zip": "1160",
+        "city": "Wien",
+        "country": "Oesterreich",
+        "additional_info": ""
+      },
+      "purchaser": {
+        "name_prefix": "",
+        "first_name": "Gregovic",
+        "last_name": "Haubenbrenner",
+        "name_suffix": "MSc",
+        "mail": "gregovic.haubenbrenner@company.com",
+        "phone_landline": "01 445 9999",
+        "phone_mobile": "+43 664 445 9999"
+      },
+      "receiver": {
+        "name_prefix": "Ing.",
+        "first_name": "Roman",
+        "last_name": "Bauer",
+        "name_suffix": "",
+        "mail": "roman.bauer@company.com",
+        "phone_landline": "01 555 9999",
+        "phone_mobile": "+43 676 458 9324"
+      },
+      "products": [
+        {
+          "amount": "2",
+          "unit": "STK",
+          "article_id": "6987324",
+          "article_name": "Produkt XY groeße 3"
+        },
+        {
+          "amount": "1",
+          "unit": "STK",
+          "article_id": "6987323",
+          "article_name": "Produkt XY groeße 2"
+        },
+        {
+          "amount": "500.5",
+          "unit": "KG",
+          "article_id": "6946722",
+          "article_name": "Produkt YX"
+        },
+        {
+          "amount": "0.75",
+          "unit": "m3",
+          "article_id": "A812301",
+          "article_name": "Produkt 4"
+        }
+      ]
+    }]
 }
 ```
 
@@ -212,6 +224,10 @@ Bei erfolgreicher Anfrage wird der HTTP-Code 201 retourniert.
 **Code** : `400 BAD REQUEST`
 
 Die Struktur der gesendeten Daten ist korrekt, allerdings ist der Prozess wegen einem Validierungsfehler fehlgeschlagen.
+Mögliche Fehlerquellen sind:
+- Die angegebene Ladeauftragsnummer stimmt nicht mit den angegeben Lieferscheinen überein
+- Es wurde bereits ein Lieferschein mit der angegebenen ID erstellt
+- Eine Lieferschein ID wurde mehrfach angegeben
 
 **Beispiel Payload**
 
